@@ -1,2 +1,4 @@
-# My-ECMAScript-6
-Journey to ES-6
+# Categories
+
+* [ECMAScript 6](https://github.com/robinslee/My-learning-notes/edit/master/ES6.md)
+* [Vue.js](https://github.com/robinslee/My-learning-notes/edit/master/Vue.md)
