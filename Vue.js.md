@@ -210,6 +210,16 @@ data对象中的属性, 就是Vue实例的属性!!!
 ```
 * 钩子函数内的this指向调用它的Vue实例
 * **不要在属性或回调上使用箭头函数, 因为箭头函数是和父级上下文绑定的, 导致this不是预期的实例**
+* 生命周期钩子:
+  * beforeCreate (实例化之后, data observer & event/watcher配置之前)
+  * created (挂载开始之前)
+  * beforeMount (render首次调用)
+  * mounted (el被vm.$el替换, DOM渲染完成? DOM和实例建立连接?)
+  * beforeDestroy, destroyed (实例销毁, 实例和所有东西解除绑定, 移除事件监听, 所有子实例被销毁)
+  * beforeUpdate (数据更新, 虚拟DOM修改之前)
+  * updated (数据更新并导致DOM重绘之后)
+  * activated, deactivated
+  * errorCaptured (来自子孙组件的错误, 返回false阻止向上传播)
 
 ## 模板语法
 * Vue使用了基于HTML的模板语法, 声明式语法将DOM和Vue实例数据绑定
@@ -230,9 +240,39 @@ data对象中的属性, 就是Vue实例的属性!!!
     <p>{{ rawHtml }}</p>    // <p><span...></p>
     <p v-html="rawHtml"></p>    // <p>Red</p>
 ```
-* 属性
+* 属性 (HTML原生属性)
 ```
-    <
+    <div v-bind:id="dynamicId"></div>
+    <button v-bind:disabled="isBtnDisabled">Button</button>
+```
+* Javascript表达式 (语句不会生效)
+> 不要试图访问用户定义的全局或者父级变量, 可以访问Math|Date之类的白名单里的全局变量
+```
+    {{ number + 1 }}
+    {{ ok ? "yes" : "no" }}
+    {{ msg.split('') }}
+    <div v-bind:id="'list-' + id"></div>
+    
+    // 如下为语句, 不会起作用
+    {{ var i = 1 }}
+    {{ if (ok) { return "OK" } }}
+```
+
+### 指令 (Directives, 带有v-前缀的特殊属性, 是Vue特有的)
+* 参数 & 修饰符(.)
+```
+    // v-for是特殊属性
+    <li v-for="item in items">{{ item.text }}</li>
+    <p v-if="seen">Show or Hide</p>
+    <a v-bind:href="url">...</a>
+    <a v-on:click="doSth">...</a>
+    // 被触发的事件里调用event.prevent()方法
+    <form v-on:submit.prevent="onSubmit">...</form>
+```
+* 缩写 (v-bind和v-on会被大量使用, 故提供特定简写)
+```
+    v-bind:id  === :id
+    v-on:click === @click
 ```
 
 
