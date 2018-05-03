@@ -1,4 +1,5 @@
 # Learning Vue.js
+> 参考 https://cn.vuejs.org/v2/guide/
 
 > Last edit at May 1st. Start at April 27th.
 
