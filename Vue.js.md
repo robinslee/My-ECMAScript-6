@@ -5,8 +5,10 @@
 
 ## Installation
 
-* \<script\>直接引入 (https://cdn.jsdelivr.net/npm/vue)
-> https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js
+* \<script\>直接引入 (<https://cdn.jsdelivr.net/npm/vue>)
+
+    <https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js>
+
 * npm安装, 以配合webpack或者browsify模块打包器
 ```
     npm i vue
