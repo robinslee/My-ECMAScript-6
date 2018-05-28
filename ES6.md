@@ -1,5 +1,5 @@
 # My-ECMAScript-6
-> Journey to ES-6, see full specification at [ECMAScript standard](http://www.ecma-international.org/ecma-262/6.0/). This article is based on <http://es6-features.org>
+> Simple overview of ES6 (ES2015), see full specification at [ECMAScript standard](http://www.ecma-international.org/ecma-262/6.0/). This article is based on <http://es6-features.org>
 
 ## Useful Resources
 * [Learn ES2015 in Babel](http://babeljs.io/learn-es2015)
@@ -19,19 +19,19 @@
 * Enhanced Object Properties. 增强的对象属性. [Goto](#Enhanced-Object-Properties)
 * Destructuring Assignment. 赋值解构. [Goto](#Destructing-Assignment)
 * Modules. 模块. [Goto](#Modules)
-* Classes
-* Symbol Type
-* Iterators
-* Generators
-* Map/Set * WeakMap/WeakSet
-* Typed Arrays
-* New Built-In Methods
-* Promises
-* Meta-Programming
-* Internationalization * Localization
+* Classes. 类. [Goto](#Classes)
+* Symbol Type. Symbol. [Goto](#Symbol-Type)
+* Iterators. 迭代. [Goto](#Iterators)
+* Generators. 生成器. [Goto](#Generators)
+* Map/Set & WeakMap/WeakSet. 集合. [Goto](#Map/Set-&-WeakMap/WeakSet)
+* Typed Arrays. 类型数组. [Goto](#Typed-Arrays)
+* New Built-In Methods. 新的内置API方法. [Goto](#New-Built-In-Methods)
+* Promises. Promise. [Goto](#Promises)
+* Meta-Programming. 反射. [Goto](#Meta-Programming)
+* Internationalization & Localization. 国际化 & 本地化. [Goto](#Internationalization-&-Localization)
 
 ### Constants
-Immutable variables, variable itself cannot be re-assigned (But object content can still be altered).
+Immutable variables. variable itself cannot be re-assigned (But object content can still be altered).
 ```js
   // ES6
   const PI = 3.141593;
@@ -272,12 +272,7 @@ Immutable variables, variable itself cannot be re-assigned (But object content c
 ```
 
 ### Enhanced Regular Expression
-> Regular Expression Sticky Matching
-
-* Keep the matching position sticky between matches and this way support efficient parsing of arbitary long input strings, even with an arbitrary number of distinct regular expressions
-```javascript
-    let parser = (input, match) => 
-```
+> Regular Expression Sticky Matching, refer to [Detail](http://es6-features.org/#RegularExpressionStickyMatching)
 
 ### Enhanced Object Properties
 * Property Shorthand, Shorter syntax for common object property definition idiom.
@@ -695,13 +690,382 @@ Immutable variables, variable itself cannot be re-assigned (But object content c
     }
 ```
 
-### 
+### Generators
+> Since async/await are standardized in ES2017, and it's more friendly to write asynchronized codes. Refer to [async/await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
 
+### Map/Set & WeakMap/WeakSet
+* Set Data-Structure. Cleaner data-structure for common algorithms based on sets
+```js
+    // ES6
+    let s = new Set();
+    s.add("hello").add("world");
+    s.size === 2; // true
+    s.has("hello"); // true
+    for (let k of s) {
+        console.log(k);
+    }
+    // "hello" "world"
 
+    // ES5
+    var s = {};
+    s["hello"] = true;
+    s["world"] = true;
+    Object.keys(s).length === 2; // true
+    s["hello"] === true; // true
+    for(var k in s) {   // arbitrary order 任意顺序
+        if (s.hasOwnProperty(k)) {
+            console.log(s[k]);
+        }
+    }
+    // true true
+```
 
+* Map Data-Structure. Cleaner data-structure for common algorithms based on maps.
+```js
+    // ES6
+    let m = new Map();
+    let s = Symbol();
+    m.set("hello", 10);
+    m.set(s, 11);
+    m.get("hello") === 10; // true
+    m.get(s) === 11; // true
+    m.size === 2; // true
+    for (let [ k, v ] of m.entries()) {
+        console.log(k + " = " + v);
+    }
+    // "hello" = 10
+    // TypeError: Cannot convert a Symbol value to a string
 
+    // ES5
+    var m = {};
+    m["hello"] = 10;
+    Object.keys(m).length === 1; // true
+    for (var key in m) {
+        if (m.hasOwnProperty(key)) {
+            console.log(key + " = " + m[key]);
+        }
+    }
+    // "hello" = 10
+```
 
+* Weak-Link Data-Structure. Memory-leak-free Object-key'd side-by-side data-structure
+```js
+    // ES6
+    let isMarked = new WeakSet();
+    let attachedData = new WeakMap();
 
+    class Node {
+        constructor(id) { this.id = id }
+        mark() { isMarked.add(this) }
+        unmark() { isMarked.delete(this) }
+        marked() { return isMarked.has(this) }
+        set data (data) { attachedData.set(this, data) }
+        get data () { return attachedData.get(this) }
+    }
+    let node = new Node("foo");
+    JSON.stringify(node); // '{"id":"foo"}'
+    node.mark();
+    node.data = "bar";
+    node.data === "bar"; // true
+    JSON.stringify(node); // '{"id":"foo"}'
+    
+    isMarked.has(node) === true; // true
+    attachedData.has(node) === true; // true
 
+    node = null; // empty reference
+    attachedData.has(node) === false; // true
+    isMarked.has(node) === false; // true
+```
 
+### Typed Arrays
+* Typed Arrays. Support for arbitary byte-based data structures to implement network protocols, cryptography algorithms, file format manipulation, etc.
 
+Type | Value Range
+---- | -----------
+Int8Array | -128 ~ 127
+Unit8Array | 0 ~ 255
+Uint8ComparedArray | 0 ~ 255
+Int16Array | -32768 ~ 32767
+Unit16Array | 0 ~ 65545
+Int32Array | -2^31 ~ 2^31-1
+Unit32Array | 0 ~ 2^32-1
+Float32Array | 1.2x10^-38 ~ 3.4x10^38
+Float64Array | 5.0x10^-324 ~ 1.8x10^308
+
+> **ArrayBuffer** is a data container, can be accessed by TypedArray(ArrayBuffer, [byteOffset, length]) and DataView(ArrayBuffer, [byteOffset, length]) 
+
+```js
+    // ES6
+    class Example {
+        constructor(buffer = new ArrayBuffer(24)) {
+            this.buffer = buffer;
+        }
+        set buffer(buffer) {
+            this._buffer = buffer;
+            this._id = new Uint32Array(this.buffer, 0, 1);
+            this._username = new Uint8Array(this._buffer, 4, 16);
+            this._amountDue = new Float32Array(this._buffer, 20, 1);
+        }
+        get buffer() { return this._buffer }
+        set id(v) { this._id[0] = v }
+        get id() { return this._id[0] }
+        set username(v) { this._username[0] }
+        get username() { return this._username[0] }
+        set amountDue(v) { this._amountDue[0] = v }
+        get amountDue() { return this._amountDue }
+    }
+    let exmaple = new Example();
+    example.id = 7;
+    example.username = "Tom";
+    example.amountDue = "30";
+```
+
+### New built-in Methods
+* Object Property Assignment. New Function for assigning enumerable properties of one or more source objects onto a destination object.
+```js
+    // ES6
+    let dest = { a: 0 };
+    let src1 = { b: 1 };
+    let src2 = { b: 2 };
+    Object.assign(dest, src1, src2);
+    console.log(dest); // { a: 0, b: 2 }
+
+    // ES5
+    var dest = { a: 0 };
+    var src1 = { b: 1 };
+    var src2 = { b: 2 };
+    Object.keys(src1).forEach(function(k) {
+        dest[k] = src1[k];
+    });
+    Object.keys(src2).forEach(function(k) {
+        dest[k] = src2[k];
+    });
+    console.log(dest); // { a: 0, b: 2 }
+```
+
+* Array Element Finding. New function for finding an element in an array
+```js
+    // ES6
+    [ 1, 3, 4, 2 ].find(x => x > 3); // 4
+    [ 1, 3, 4, 2 ].findIndex(x => x > 3); // 2
+
+    // ES5
+    [ 1, 3, 4, 2 ].filter(function(x) {
+        return x > 3;
+    })[0];
+```
+
+* String Searching & Repeating. New string repeating functionalities and search for sub-string.
+```js
+    // ES6
+    "-".repeat(4); // ----
+    "hello".startsWith("ello", 1); // true, 1 is start index
+    "hello".endsWith("hell", 4); // true, 4 is end index
+    "hello".includes("ell"); // true
+    "hello".includes("ell", 2); // false, 2 is start index
+
+    // ES5
+    Array(4 + 1).join("-"); // ----
+    "hello".indexOf("ello") === 1; // true
+    "hello".indexOf("hell") === (4 - "hello".length); // true
+    "hello".indexOf("ell") !== -1; // true
+    "hello".indexOf("ell", 2) !== -1; // false
+```
+
+* Number Type Checking. New functions for checking for non-numbers and finite numbers.
+```js
+    // ES6
+    Number.isNaN(30); // false
+    Number.isNaN(NaN); // true
+    Number.isFinite(Infinity); // false
+    Number.isFinite(-Infinity); // false
+    Number.isFinite(NaN); // false
+    Number.isFinite(123); // true
+
+    // ES5
+    function isNaN(n) { return n !== n; }
+    function isFinite(v) {
+        return (typeof v === "number"
+            && !isNaN(v)
+            && v !== Infinite
+            && v !== -Infinite);
+    }
+    isNaN(30); // false
+    isNaN(NaN); // true
+    isFinite(Infinite); // false
+    isFinite(-Infinite); // false
+    isFinite(NaN); // false
+    isFinite(123); // true
+```
+
+* Number Safety checking. Checking whether an integer number is in the safe range, i.e., It is correctly represented by Javascript (Where all numbers, including integer numbers, are technically floating point number).
+```js
+    // ES6
+    Number.isSafeInteger(30); // true
+    Number.isSafeInteger(9007199254740992); // false, 2^53
+
+    // ES5
+    function isSafeInteger(n) {
+        return (typeof n === "number
+            && Math.round(n) === n
+            && -(Math.pow(2, 53) - 1) <= n
+            && n <= (Math.pow(2, 53) - 1);
+        );
+    }
+    isSafeInteger(30); // true
+    isSafeInteger(9007199254740992); // false
+```
+
+* Number Comparison. Availability of a standard Epsilon value for more comparison of floating point numbers.
+```js
+    // ES6
+    (0.1 + 0.2) === 0.3; // false
+    Math.abs((0.1 + 0.2) - 0.3) < Number.EPSILON; // true
+
+    // ES5
+    (0.1 + 0.2) === 0.3; // false
+    Math.abs((0.1 + 0.2) - 0.3) < 2.220446049250313e-16; // true
+```
+
+* Number Trunction. Truncate a floating point number to its integral part, completely dropping the fractional part.
+```js
+    // ES6
+    Math.truncate(42.7); // 42
+    Math.truncate(0.1); // 0
+    Math.truncate(-0.1); // -0
+
+    // ES5
+    function mathTrunc(x) {
+        return (x < 0 ? Math.ceil(x) : Math.floor(x));
+    }
+    mathTrunc(42.7); // 42
+    mathTrunc(0.1); // 0
+    mathTrunc(-0.1); // -0
+```
+
+* Number Sign Determination. Determine the sign of a number, including special cases of signed zero and non-number.
+```js
+    // ES6
+    Math.sign(7); // 1
+    Math.sign(0); // 0
+    Math.sign(-0); // -0
+    Math.sign(-7); // -1
+    Math.sign(NaN); // NaN
+
+    // ES5
+    function mathSign(x) {
+        return ((x === 0 || isNaN(x)) ? x : (x > 0 ? 1 : -1));
+    }
+    mathSign(7); // 1
+    mathSign(0); // 0
+    mathSign(-0); // -0
+    mathSign(-7); // -1
+    mathSign(NaN); // NaN
+```
+
+### Promises
+* Promise Usage. First class reprentation of a value that may be made asynchrously and be available in the future.
+
+State | Description
+----- | -----------
+pending | initial state, neither fulfilled or rejected
+fulfilled | operation completed successfully
+rejected | operation failed
+
+Static Methods | Description
+------- | -----------
+Promise.all | Promise list that all are resolved
+Promise.race | Promise list once one is resolved
+Promise.reject | Directly reject
+Promise.resolve | Directly resolve
+
+Methods | Description
+------- | -----------
+then    | then(fnResolve, fnReject)
+catch   | catch(fnReject) === then(undefined, fnReject)
+finally | finally(fnFinally)
+
+```js
+    // ES6
+    function msgAfterTimeout(msg, who, timeout) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(`${msg} Hello ${who}!`);
+            }, timeout);
+        });
+    }
+    msgAfterTimeout("", "Foo", 100)
+        .then(msg => {
+            return msgAfterTimeout(msg, "Bar", 200);
+        })
+        .then(msg => {
+            console.log(`done after 300ms: ${msg}`);
+        });
+    
+    // ES5
+    function msgAfterTimeout(msg, who, timeout, onDone) {
+        setTimeout(function() {
+            onDone(msg + " Hello " + who + "!");
+        }, timeout);
+    }
+    msgAfterTimeout("", "Foo", 100, function(msg) {
+        msgAfterTimeout(msg, "Bar", 200, function(msg) {
+            console.log("done after 300ms: " + msg);
+        });
+    });
+```
+
+### Meta-Programming
+* Proxying. Hooking into runtime-level object meta-operations.
+```js
+    let target = { foo: "Welcome, foo" };
+    let proxy = new Proxy(target, {
+        get(receiver, name) {
+            // receiver === target
+            // name === proxy.xxx
+            return (name in receiver) ? receiver[name] : `Hello, ${name}`;
+        }
+    });
+    proxy.foo; // "Welcome, foo"
+    proxy.world; // "Hello, world"
+```
+* Reflection. Make calls corresponding to the object meta-operations.
+```js
+    // ES6
+    let obj = { a: 1 };
+    Object.defineProperty(obj, "b", { value: 2});
+    obj[Symbol("c")] = 3;
+    Reflection.ownKeys(obj); // [ "a", "b", Symbol(c) ]
+
+    // ES5
+    var obj = { a: 1 };
+    Object.defineProperty(obj, "b", { value: 2 });
+    Object.getOwnPropertyNames(obj); // [ "a", "b" ]
+```
+
+### Internationalization & Localization
+* Number Formatting
+```js
+    let l10nEN = new Intl.NumberFormat("en-US");
+    let l10nDE = new Intl.NumberFormat("de-DE");
+    l10nEN.format(1234567.89); // "1,234,567.89"
+    l10nDE.format(1234567.89); // "1.234.567.89"
+```
+
+* Currency Formatting. Format numbers with digit grouping, localized separators and attached currency symbol.
+```js
+    let l10nUSD = new Intl.NumberFormat("en-US", { style: "CURRENCY", currency: "USD" });
+    let l10nGBP = new Intl.NumberFormat("en-GB", { style: "CURRENCY", currency: "GBP" });
+    let l10nEUR = new Intl.NumberFormat("de-DE", { style: "CURRENCY", currency: "EUR" });
+    l10nUSD.format(100200300.40); // "$100,200,300.40"
+    l10nGBP.format(100200300.40); // "£100,200,300.40"
+    l10nEUR.format(100200300.40); // "100.200.300,40 €"
+```
+
+* Date/Time Formatting. Format date/time with localized ordering and separators.
+```js
+    let l10nEN = new Intl.DateTimeFormat("en-US");
+    let l10nDE = new Intl.DateTimeFormat("de-DE");
+    l10nEN.format(new Date("2018-05-02")); // "5/2/2018"
+    l10nDE.format(new Date("2018-05-02")); // "2.5.2018"
+```
