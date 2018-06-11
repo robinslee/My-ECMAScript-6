@@ -1,0 +1,402 @@
+<!DOCTYPE>
+
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<style>
+body {
+    background-color: #ccc;
+}
+.line {
+    display: inline-block;
+    width: 100%;
+    margin-right: -100%;
+    position: relative;
+    z-index: 10;
+    border-top: 1px dotted #333;
+}
+.center {
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+.tall-box {
+    height: 2em;
+    min-width: 1em;
+    min-height: 1em;
+    background-color: #fff;
+}
+.short-box {
+    height: .3em;
+    min-width: 1em;
+    min-height: .3em;
+    background-color: #fff;
+}
+.baseline {
+    display: inline-block;
+    vertical-align: baseline;
+}
+.top {
+    display: inline-block;
+    vertical-align: top;
+}
+.middle {
+    display: inline-block;
+    vertical-align: middle;
+}
+.bottom {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.text-top {
+    display: inline-block;
+    vertical-align: text-top;
+}
+.text-bottom {
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+.red-top.line {
+    border-color: red;
+    vertical-align: top;
+}
+.red-bottom.line {
+    border-color: red;
+    vertical-align: bottom;
+}
+.green-text-top.line {
+    border-color: green;
+    vertical-align: text-top;
+}
+.green-text-bottom.line {
+    border-color: green;
+    vertical-align: text-bottom;
+}
+.blue-baseline-line.line {
+    border-color: blue;
+    vertical-align: baseline;
+}
+.large-font {
+    font-size: 1.5em;
+}
+</style>
+</head>
+
+<body>
+<style>
+.sample-1 {
+    line-height: 1;
+}
+</style>
+<h1>Vertical-Align, all you need to know</h1>
+<hr />
+<h2>Vertically alignment</h2>
+<figure class="sample-1">
+    <span class="red-top line"> </span><!--
+ --><span class="red-bottom line"> </span><!--
+ --><span class="center">A tall
+        <span class="tall-box baseline"> </span>
+        in a line of text.</span><br />
+    <span class="red-bottom line"> </span><!--
+ --><span class="center">A short
+        <span class="short-box baseline"> </span>
+        in a line of text.</span><br />
+    <span class="red-bottom line"> </span><!--
+ --><span class="center">
+        <span class="middle">This</span>
+        <span class="tall-box text-top"> </span>
+        <span class="top">can</span>
+        <span class="tall-box text-bottom"> </span>
+        <span class="bottom">happen.</span>
+    </span>
+</figure>
+
+<style>
+.sample-2 {
+    line-height: 1;
+    font-size: 1.5em;
+}
+.sample-2 > div[class^=column] {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 33.333%;
+    box-sizing: border-box;
+}
+.sample-2 .column-1 {
+    line-height: 1;
+}
+.sample-2 .column-2 {
+    line-height: 2;
+}
+.sample-2 .column-3 {
+    line-height: .5;
+}
+</style>
+<h2>Inline ELement</h2>
+<figure class="sample-2">
+    <div class="column-1"><!--
+     --><span class="green-text-top line"> </span><!--
+     --><span class="green-text-bottom line"> </span><!--
+     --><span class="red-top line"> </span><!--
+     --><span class="red-bottom line"> </span><!--
+     --><span class="blue-baseline-line line"> </span><!--
+     --><span class="center">aAÄ qQ</span>
+    </div><!--
+ --><div class="column-2"><!--
+    --><span class="green-text-top line"> </span><!--
+    --><span class="green-text-bottom line"> </span><!--
+    --><span class="red-top line"> </span><!--
+    --><span class="red-bottom line"> </span><!--
+    --><span class="blue-baseline-line line"> </span><!--
+    --><span class="center">aAÄ qQ</span>
+    </div><!--
+ --><div class="column-3"><!--
+    --><span class="green-text-top line"> </span><!--
+    --><span class="green-text-bottom line"> </span><!--
+    --><span class="red-top line"> </span><!--
+    --><span class="red-bottom line"> </span><!--
+    --><span class="blue-baseline-line line"> </span><!--
+    --><span class="center">aAÄ qQ</span>
+    </div>
+</figure>
+
+<style>
+.sample-3 {
+    line-height: 1;
+}
+.sample-3 > div[class^=column] {
+    display: inline-block;
+    width: 33.333%;
+    vertical-align: top;
+}
+.inline-block {
+    display: inline-block;
+    margin: .5em;
+    padding: .5em;
+    width: 1.5em;
+    height: 1.5em;
+    border-width: .5em;
+    border-style: solid;
+    text-align: center;
+}
+.box-model {
+    background: #c1cd89;
+    border-color: #fcdb9a;
+}
+.box-model-content {
+    background: #8ab3bf;
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+}
+</style>
+<h2>Inline-Block Element</h2>
+<figure class="sample-3">
+    <div class="column-1"><!--
+     --><span class="red-top line"> </span><!--
+     --><span class="red-bottom line"> </span><!--
+     --><span class="blue-baseline-line line"> </span><!--
+     --><span class="inline-block box-model"><!--
+     --><span class="box-model-content">c</span>
+    </span>
+    </div><!--
+ --><div class="column-2"><!--
+    --><span class="red-top line"> </span><!--
+    --><span class="red-bottom line"> </span><!--
+    --><span class="blue-baseline-line line"> </span><!--
+    --><span class="inline-block box-model" style="overflow: hidden"><!--
+    --><span class="box-model-content">c</span>
+    </span>
+    </div><!--
+ --><div class="column-3"><!--
+    --><span class="red-top line"> </span><!--
+    --><span class="red-bottom line"> </span><!--
+    --><span class="blue-baseline-line line"> </span><!--
+    --><span class="inline-block box-model" style="overflow: hidden"><!--
+    --><span class="box-model-content"> </span>
+    </span>
+    </div>
+</figure>
+
+<style>
+.sample-4 {
+    line-height: 1;
+}
+.sample-4 .large-font {
+    font-size: 1.5em;
+    white-space: nowrap;
+    line-height: 1;
+}
+.middle-bg {
+    display: inline-block;
+    background-color: #fff;
+    vertical-align: middle;
+}
+.top-bg {
+    display: inline-block;
+    background-color: #fff;
+    vertical-align: top;
+}
+.bottom-bg {
+    display: inline-block;
+    background-color: #fff;
+    vertical-align: bottom;
+}
+.line.overlay {
+    border: none;
+    color: #000;
+    font-size: 1em;
+}
+</style>
+<h2>Line Box</h2>
+<figure class="sample-4">
+    <div class="large-font"><!--
+     --><span class="green-text-top line"> </span><!--
+     --><span class="green-text-bottom line"> </span><!--
+     --><span class="red-top line"> </span><!--
+     --><span class="red-bottom line"> </span><!--
+     --><span class="blue-baseline-line line"> </span><!--
+     --><span class="line overlay">x</span><!--
+     --><span class="center">
+         <span class="middle-bg">This</span>
+         <span class="tall-box text-top"> </span>
+         <span class="top-bg">can</span>
+         <span class="tall-box text-bottom"> </span>
+         <span class="bottom-bg">happen</span>
+     </span>
+    </div>
+</figure>
+
+<style>
+.sub {
+    vertical-align: sub;
+    display: inline-block;
+}
+.super {
+    vertical-align: super;
+    display: inline-block;
+}
+</style>
+<h2>Aligning element's baselin relative to the line box's baseline</h2>
+<figure class="sample-5">
+    <span class="large-font">
+        <span class="blue-baseline-line line"> </span><!--
+     --><span class="line overlay">x</span><!--
+     --><span class="center">
+            <span class="baseline">baseline</span>
+            <span class="sub"><span class="blue-baseline-line line"> </span>sub</span>
+            <span class="super"><span class="blue-baseline-line line"> </span>super</span>
+            <span class="baseline" style="vertical-align: -50%"><span class="blue-baseline-line line"> </span>-50%</span>
+            <span class="baseline" style="vertical-align: 10px"><span class="blue-baseline-line line"> </span>+10px</span>
+        </span>
+    </span>
+</figure>
+
+<style>
+.sample-6 .large-font {
+    white-space: nowrap;
+    line-height: 1;
+}
+.orange-middle-line.line {
+    border-color: #daa520;
+    vertical-align: middle;
+}
+.font {
+    display: inline-block;
+    vertical-align: baseline;
+    white-space: nowrap;
+    line-height: 1;
+}
+</style>
+<h2>Aligning elements' outer edges relative to the line box's baseline</h2>
+<figure class="sample-6">
+    <span class="large-font">
+        <span class="orange-middle-line line"> </span><!--
+     --><span class="font"><span class="blue-baseline-line line"> </span>x</span><!--
+     --><span class="center">
+            <span class="middle"><!--
+                --><span class="red-top line"> </span><!--
+                --><span class="red-bottom line"> </span><!--
+                -->middle
+            </span>
+        </span>
+    </span>
+</figure>
+
+<style>
+.sample-7 .large-font {
+    white-space: nowrap;
+    line-height: 1;
+}
+.tall-line-height {
+    line-height: 2;
+}
+</style>
+<h2>Aligning the element's outer edges relative to the line box's text box</h2>
+<figure class="sample-7">
+    <span class="large-font tall-line-height">
+        <span class="green-text-top line"> </span><!--
+        --><span class="green-text-bottom line"> </span><!--
+        --><span class="font tall-line-height baseline"><!--
+        --><span class="red-top line"> </span><!--
+        --><span class="red-bottom line"> </span><!--
+        -->x
+        </span><!--
+        --><span class="center">
+            <span class="font text-top"><!--
+                --><span class="red-top line"> </span><!--
+                --><span class="redbottom line"> </span><!--
+                -->text-top
+            </span>
+            <span class="font text-bottom"><!--
+                --><span class="red-top line"> </span><!--
+                --><span class="red-bottom line"> </span><!--
+                -->text-bottom
+            </span>
+        </span>
+    </span>
+</figure>
+
+<style>
+.sample-8 .tall-line-height {
+    white-space: nowrap;
+    line-height: 2;
+}
+</style>
+<h2>Aligning the element's outer edges relative to the line box's outer edges</h2>
+<figure class="sample-8">
+    <span class="large-font tall-line-height">
+        <span class="red-top line"> </span><!--
+        --><span class="red-bottom line"> </span><!--
+        --><span class="font baseline"><!--
+        --><span class="green-text-top line"> </span><!--
+        --><span class="green-text-bottom line"> </span><!--
+        -->x
+        </span><!--
+        --><span class="center">
+            <span class="font top"><!--
+                --><span class="red-top line"> </span><!--
+                --><span class="red-bottom line"> </span><!--
+                -->top
+            </span>
+            <span class="font bottom"><!--
+                --><span class="red-top line"> </span><!--
+                --><span class="red-bottom line"> </span><!--
+                -->bottom
+            </span>
+        </span>
+    </span>
+</figure>
+
+<br /><br /><br /><br /><br /><br />
+<div style="border: 1px solid green; height: 2em; line-height: 1;">
+    <span style="display: inline-block; width: 100%; border-top: 1px solid #f00; vertical-align: top"></span><span style="display: inline-block; width: 100%; border-top: 1px solid #ff0; vertical-align: bottom"></span><span style="display: inline-block; width: 100%; vertical-align: baseline;">Axyz
+        <span style="display: inline-block; height: 1.5em; width: 2em; background-color: green"> </span>
+        zyxA
+    </span>
+</div>
+</body>
+</html>
