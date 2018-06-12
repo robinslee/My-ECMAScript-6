@@ -54,7 +54,7 @@ line-height: .5; /* 右边 */
 
 **inline元素的外边界**与line-height一致，即使line-height比font-size小，结果会是右边例子的红线那样。
 
-**inline元素的基线**恰好是字符“坐”着的那条线，如蓝线所示。可以粗略的认为，基线位于文字中间偏下的某个位置。详见W3C规范中的[具体定义](http://www.w3.org/TR/CSS2/visudet.html#leading)。
+**inline元素的基线**恰好是字符“坐”着的那条线，如蓝线所示。可以粗略的认为，基线就是字体高度中间偏下的某个位置（看图片中的Q/q）。详见W3C规范中的[具体定义](http://www.w3.org/TR/CSS2/visudet.html#leading)。
 
 ### Inline-Block元素
 
