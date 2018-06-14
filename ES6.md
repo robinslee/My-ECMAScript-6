@@ -783,27 +783,33 @@ Immutable variables. variable itself cannot be re-assigned (But object content c
 Type | Value Range
 ---- | -----------
 Int8Array | -128 ~ 127
-Unit8Array | 0 ~ 255
+Uint8Array | 0 ~ 255
 Uint8ComparedArray | 0 ~ 255
 Int16Array | -32768 ~ 32767
-Unit16Array | 0 ~ 65545
+Uint16Array | 0 ~ 65545
 Int32Array | -2^31 ~ 2^31-1
-Unit32Array | 0 ~ 2^32-1
+Uint32Array | 0 ~ 2^32-1
 Float32Array | 1.2x10^-38 ~ 3.4x10^38
 Float64Array | 5.0x10^-324 ~ 1.8x10^308
 
-> **ArrayBuffer** is a data container, can be accessed by TypedArray(ArrayBuffer, [byteOffset, length]) and DataView(ArrayBuffer, [byteOffset, length]) 
+> **ArrayBuffer** is a data container, can be accessed by TypedArray(ArrayBuffer, [byteOffset, length]) and DataView(ArrayBuffer, [byteOffset, length])
+
+> **DataView** is another way to set/get ArrayBuffer, such as set/getInt8, set/getUint16 etc.
 
 ```js
     // ES6
     class Example {
+        // 24 byte length
         constructor(buffer = new ArrayBuffer(24)) {
             this.buffer = buffer;
         }
         set buffer(buffer) {
             this._buffer = buffer;
+            // 4 bytes (32 bits per unit)
             this._id = new Uint32Array(this.buffer, 0, 1);
+            // 16 bytes (8 bits per unit)
             this._username = new Uint8Array(this._buffer, 4, 16);
+            // 4 bytes (32 bites per unit)
             this._amountDue = new Float32Array(this._buffer, 20, 1);
         }
         get buffer() { return this._buffer }

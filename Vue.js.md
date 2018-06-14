@@ -232,7 +232,7 @@ data对象中的属性, 就是Vue实例的属性!!!
 * 文本
 ```
     <span>Message: {{ msg }}</span>
-    <span v-once>只能执行一次插值: {{ msg }}</span>
+    <span v-once>只能执行一次插值, 即使msg变化这里也不更新: {{ msg }}</span>
 ```
 * 原始HTML, 动态渲染任意HTMl非常危险, 很容易导致XSS攻击
 ```
@@ -271,7 +271,7 @@ data对象中的属性, 就是Vue实例的属性!!!
     // 被触发的事件里调用event.prevent()方法
     <form v-on:submit.prevent="onSubmit">...</form>
 ```
-* 缩写 (v-bind和v-on会被大量使用, 故提供特定简写)
+### 缩写 (v-bind和v-on会被大量使用, 故提供特定简写)
 ```
     v-bind:id  === :id
     v-on:click === @click

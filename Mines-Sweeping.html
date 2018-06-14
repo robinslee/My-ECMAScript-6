@@ -20,7 +20,7 @@ const MINE_SYMBOL = "!";
 0 1 -1 1
 0 1  1 1
 0 0  0 0
- */
+*/
 
 // Disable default popup menu of right-click
 window.oncontextmenu = function(e) {
@@ -41,6 +41,7 @@ function loadGame() {
     
     // fakeInit();
     isGameOver = false;
+    counts = 0;
     initArray();
     initElements();
 
@@ -79,6 +80,18 @@ function bindEvents() {
     }
 }
 
+function onLevelChange(select) {
+    let index = select.selectedIndex;
+    let value = select.options[index].value;
+    
+    let m = /^(\d+)-(\d+)$/gi.exec(value);
+    ROWS = Number.parseInt(m[1]);
+    COLS = ROWS;
+    MINES = Number.parseInt(m[2]);
+
+    loadGame();
+}
+
 function isWinner() {
     let dangers = 0;
     let total = 0;
@@ -94,7 +107,7 @@ function isWinner() {
         }
     }
 
-    if (total + dangers === ROWS * COLS ) {
+    if (total + dangers === ROWS * COLS) {
         isGameOver = true;
         setTimeout(function() {
             alert("You win!!!");
@@ -164,6 +177,10 @@ function refreshDOM() {
     }
 }
 
+/**
+ * -1 means mine
+ * >= 0 means mines number around
+ */
 function initArray() {
     let mines = MINES;
     array = [];
@@ -236,7 +253,7 @@ function spreadByPos(row, col) {
         obj = array[row][col];
     }
 
-    if (obj === null || obj.visible || obj.number === -1) {
+    if (obj === null || obj.visible || obj.number === -1 || obj.danger) {
         return;
     }
 
@@ -291,18 +308,6 @@ function isMine(i, j) {
     return obj !== null && obj.number === -1;
 }
 
-function levelChange(select) {
-    let index = select.selectedIndex;
-    let value = select.options[index].value;
-    
-    let m = /^(\d+)-(\d+)$/gi.exec(value);
-    ROWS = Number.parseInt(m[1]);
-    COLS = ROWS;
-    MINES = Number.parseInt(m[2]);
-
-    loadGame();
-}
-
 function log() {
     for (let subArray of array) {
         console.log(subArray.map(o => o.number));
@@ -346,7 +351,7 @@ function log() {
 <h1>扫雷小游戏 1.0.0</h1>
 <hr />
 <div id="score">
-    <select onchange="levelChange(this)">
+    <select onchange="onLevelChange(this)">
         <option value="4-2" selected>初级 4x4-2</option>
         <option value="10-10">中级 10x10-10</option>
         <option value="15-40">高级 15x15-40</option>
