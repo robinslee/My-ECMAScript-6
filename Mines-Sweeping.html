@@ -2,7 +2,8 @@
 
 <html lang="en">
 <head>
-<head name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>扫雷小游戏</title>
 <script>
 let ROWS = 4;
@@ -150,7 +151,7 @@ function initElements() {
             div.className = "rect";
             div.style.left = (j * 3) + "em";
             div.style.top = (i * 3) + "em";
-            container.append(div);
+            container.appendChild(div);
 
             obj.el = div;
         }
