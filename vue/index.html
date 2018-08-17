@@ -1,6 +1,6 @@
 <!DOCTYPE>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <script src="./lib/vue.js"></script>
@@ -13,6 +13,11 @@
 }
 </style>
 </head>
+
+<!--
+TODO:
+https://cn.vuejs.org/v2/guide/list.html
+-->
 
 <body>
 <div id="wrapper">
@@ -63,6 +68,29 @@
 		{{ (index + 1) + ". " + item }}
 	</li>
 </ul>
+
+<ul style="list-style:circle">
+	<li v-for="item in computedItems">
+		{{ item }}
+	</li>
+</ul>
+</div>
+
+<div id="todo-list-demo">
+	<form v-on:submit.prevent="addNewTodo">
+		<label for="new-todo">Add a todo</label>
+		<input v-model="newTodoText" id="new-todo" placeholder="Input your todo">
+		<button>Add</button>
+	</form>
+	<ul>
+		<li
+		    is="todo-item"
+			v-for="(todo, index) in todos"
+			v-bind:key="todo.id"
+			v-bind:title="todo.title"
+			@remove="todos.splice(index, 1)">
+		</li>
+	</ul>
 </div>
 
 <script>
@@ -131,6 +159,9 @@ let vm = new Vue({
 				active: this.isActive,
 				"text-red": this.alert
 			}
+		},
+		computedItems: function() {
+			return this.items.map((item, i) => item + "-" + i * 2);
 		}
 	},
 	watch: {
@@ -144,6 +175,42 @@ let vm = new Vue({
 	},
 	destroyed: function() {
 		console.log("vm is destroyed!");
+	}
+});
+
+Vue.component("todo-item", {
+    template: "<li>{{ title }}<button v-on:click=\"$emit('remove')\">Remove</button></li>",
+	props: ["title"]
+});
+
+new Vue({
+	el: "#todo-list-demo",
+	data: {
+		newTodoText: "",
+		todos: [
+			{
+				id: 1,
+				title: "Do the dishes"
+			},
+			{
+				id: 2,
+				title: "Take out the trash"
+			},
+			{
+				id: 3,
+				title: "Mow the lawn"
+			}
+		],
+		nextTodoId: 4
+	},
+	methods: {
+		addNewTodo: function() {
+			this.todos.push({
+				id: this.nextTodoId++,
+				title: this.newTodoText
+			});
+			this.newTodoText = "";
+		}
 	}
 });
 </script>
